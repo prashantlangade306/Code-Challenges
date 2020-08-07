@@ -1,6 +1,8 @@
 This guide walks you through the process of creating a backend part of ANZ Wholesale Engineering Sample Project
 using Spring.
 
+Note: The skeleton of the spring application has been taken from https://github.com/spring-guides/gs-rest-service
+
 == Exposed end-points
 
 1. Accept HTTP GET request at `http://localhost:8080/accountListEnquiry`.
