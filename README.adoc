@@ -103,6 +103,7 @@ It will respond with a JSON representation of a greeting, as the following listi
            "openingAvailableBalance": 92561.68
        }
    ]
+====  
 ----
 2. [
        {
