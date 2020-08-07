@@ -1,0 +1,214 @@
+This guide walks you through the process of creating a backend part of ANZ Wholesale Engineering Sample Project
+using Spring.
+
+== Exposed end-points
+
+1. Accept HTTP GET request at `http://localhost:8080/accountListEnquiry`.
+2. Accept HTTP GET request at `http://localhost:8080/transactionListEnquiry/{accountNumber}`.
+
+It will respond with a JSON representation of a greeting, as the following listing shows:
+
+====
+
+----
+1. [
+       {
+           "accountNumber": 585309209,
+           "accountName": "SGSavings726",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 84327.51
+       },
+       {
+           "accountNumber": 791066619,
+           "accountName": "AUSavings933",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 88005.93
+       },
+       {
+           "accountNumber": 321143048,
+           "accountName": "AUCurrent433",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 38010.62
+       },
+       {
+           "accountNumber": 347786244,
+           "accountName": "SGCurrent166",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 50664.65
+       },
+       {
+           "accountNumber": 680168913,
+           "accountName": "AUCurrent374",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 41327.28
+       },
+       {
+           "accountNumber": 136056165,
+           "accountName": "AUSavings938",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 48928.79
+       },
+       {
+           "accountNumber": 453963528,
+           "accountName": "SGSavings842",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 72117.53
+       },
+       {
+           "accountNumber": 334666982,
+           "accountName": "AUSavings253",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 20588.16
+       },
+       {
+           "accountNumber": 793949180,
+           "accountName": "AUCurrent754",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 88794.48
+       },
+       {
+           "accountNumber": 768759901,
+           "accountName": "SGCurrent294",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 5906.55
+       },
+       {
+           "accountNumber": 847257972,
+           "accountName": "AUCurrent591",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 92561.68
+       }
+   ]
+----
+2. [
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 9540.98,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 7497.82,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 5564.79,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 8136.18,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 9442.46,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 7614.45,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       }
+   ]
+
+== Application Architecture/Code Walkthrough
+
+== Technology stack
+
+The application uses spring boot using JDK8 version with gradle as a build management tool. Postman API tool can be used to test
+the rest APIs.
+
+== Code Walkthrough
+
+* com.anz.wholesale.main.RestServiceApplication
+This is the point where application starts up by looking at the required spring beans defined using component scan by initialising them.
+
+* com.anz.wholesale.controller.AccountsController
+This is the rest controller where AccountService has been injected using Autowiring feature.
+
+It has two methods.
+getAccountList - This method retrieves a list of all accounts.
+getAccountTransactionList - This method retrieves a list of all transactions for a given account.
+
+* com.anz.wholesale.service.AccountService
+This is the service layer that receives a request from controller layer which does the actual business logic processing.
+
+It has two methods.
+getAccountList - This method has a hard coded Account domain objects which are returned as a list.
+getAccountTransactionList - This method has a hard coded Transaction domain objects which are returned as a list based on a specific account number passed. In case of invalid
+account number, it returns a valid user friendly error.
+
+Note: At the moment, as part of this sample challenge, both account and transaction data has been hard coded in the service layer.
+
+* com.anz.wholesale.domain.Account
+This is a domain class representing all the required fields by API requestor related to Account data.
+
+* com.anz.wholesale.domain.Transaction
+This is a domain class representing all the required fields by API requestor related to Transaction data for a given account number.
+
+* com.anz.wholesale.Exception.DefaultExceptionHandler
+This is a custom exception handler class that handles any exception and more specific excpetion using two methods.
+
+It has two methods.
+handleAnyException - This method handles the exceptional scenario (other than more specific scenario handled by handleAccountTransactionException) and returns 400 Bad Request response
+handleAccountTransactionException - This method handles scenario when there are no transactions associated with a given account number and returns appropriate user friendly message.
+
+== Test the Service
+
+http://localhost:8080/accountListEnquiry will return the list of accounts in JSON format
+http://localhost:8080/transactionListEnquiry/{accountNumber} will return the list of transactions for a given account in JSON format.
+Currently only two account numbers(585309209 and 791066619) have been configured to return a dummy list of transactions.
