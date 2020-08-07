@@ -1,238 +1,214 @@
-:spring_version: current
-:toc:
-:project_id: gs-rest-service
-:spring_version: current
-:spring_boot_version: 2.2.1.RELEASE
-:icons: font
-:source-highlighter: prettify
+This guide walks you through the process of creating a backend part of ANZ Wholesale Engineering Sample Project
+using Spring.
 
-This guide walks you through the process of creating a "`Hello, World`" RESTful web
-service with Spring.
+== Exposed end-points
 
-== What You Will Build
-
-You will build a service that will accept HTTP GET requests at
-`http://localhost:8080/greeting`.
+1. Accept HTTP GET request at `http://localhost:8080/accountListEnquiry`.
+2. Accept HTTP GET request at `http://localhost:8080/transactionListEnquiry/{accountNumber}`.
 
 It will respond with a JSON representation of a greeting, as the following listing shows:
 
 ====
-[source,json]
+
 ----
-{"id":1,"content":"Hello, World!"}
+1. [
+       {
+           "accountNumber": 585309209,
+           "accountName": "SGSavings726",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 84327.51
+       },
+       {
+           "accountNumber": 791066619,
+           "accountName": "AUSavings933",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 88005.93
+       },
+       {
+           "accountNumber": 321143048,
+           "accountName": "AUCurrent433",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 38010.62
+       },
+       {
+           "accountNumber": 347786244,
+           "accountName": "SGCurrent166",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 50664.65
+       },
+       {
+           "accountNumber": 680168913,
+           "accountName": "AUCurrent374",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 41327.28
+       },
+       {
+           "accountNumber": 136056165,
+           "accountName": "AUSavings938",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 48928.79
+       },
+       {
+           "accountNumber": 453963528,
+           "accountName": "SGSavings842",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 72117.53
+       },
+       {
+           "accountNumber": 334666982,
+           "accountName": "AUSavings253",
+           "accountType": "Savings",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 20588.16
+       },
+       {
+           "accountNumber": 793949180,
+           "accountName": "AUCurrent754",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 88794.48
+       },
+       {
+           "accountNumber": 768759901,
+           "accountName": "SGCurrent294",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "SGD",
+           "openingAvailableBalance": 5906.55
+       },
+       {
+           "accountNumber": 847257972,
+           "accountName": "AUCurrent591",
+           "accountType": "Current",
+           "balanceDate": "2018-08-10T14:00:00.000+00:00",
+           "currency": "AUD",
+           "openingAvailableBalance": 92561.68
+       }
+   ]
 ----
-====
+2. [
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 9540.98,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 7497.82,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 5564.79,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 8136.18,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 9442.46,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       },
+       {
+           "accountNumber": 1232223212,
+           "accountName": "Current Account",
+           "valueDate": "2012-01-11T13:00:00.000+00:00",
+           "currency": "SGD",
+           "debitAmount": 0.0,
+           "creditAmount": 7614.45,
+           "amountType": "Credit",
+           "transactionNarrative": ""
+       }
+   ]
 
-You can customize the greeting with an optional `name` parameter in the query string, as
-the following listing shows:
+== Application Architecture/Code Walkthrough
 
-====
-[source,text]
-----
-http://localhost:8080/greeting?name=User
-----
-====
+== Technology stack
 
-The `name` parameter value overrides the default value of `World` and is reflected in the
-response, as the following listing shows:
+The application uses spring boot using JDK8 version with gradle as a build management tool. Postman API tool can be used to test
+the rest APIs.
 
-====
-[source,json]
-----
-{"id":1,"content":"Hello, User!"}
-----
-====
+== Code Walkthrough
 
-== What You Need
+* com.anz.wholesale.main.RestServiceApplication
+This is the point where application starts up by looking at the required spring beans defined using component scan by initialising them.
 
-:java_version: 1.8
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+* com.anz.wholesale.controller.AccountsController
+This is the rest controller where AccountService has been injected using Autowiring feature.
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
+It has two methods.
+getAccountList - This method retrieves a list of all accounts.
+getAccountTransactionList - This method retrieves a list of all transactions for a given account.
 
-[[scratch]]
-== Starting with Spring Initializr
+* com.anz.wholesale.service.AccountService
+This is the service layer that receives a request from controller layer which does the actual business logic processing.
 
-For all Spring applications, you should start with the https://start.spring.io[Spring
-Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
-an application and does a lot of the setup for you. This example needs only the Spring Web
-dependency. The following image shows the Initializr set up for this sample project:
+It has two methods.
+getAccountList - This method has a hard coded Account domain objects which are returned as a list.
+getAccountTransactionList - This method has a hard coded Transaction domain objects which are returned as a list based on a specific account number passed. In case of invalid
+account number, it returns a valid user friendly error.
 
-image::images/initializr.png[]
+Note: At the moment, as part of this sample challenge, both account and transaction data has been hard coded in the service layer.
 
-NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
-can also use Gradle. It also shows values of `com.example` and `rest-service` as the Group
-and Artifact, respectively. You will use those values throughout the rest of this sample.
+* com.anz.wholesale.domain.Account
+This is a domain class representing all the required fields by API requestor related to Account data.
 
-The following listing shows the `pom.xml` file that is created when you choose Maven:
+* com.anz.wholesale.domain.Transaction
+This is a domain class representing all the required fields by API requestor related to Transaction data for a given account number.
 
-====
-[source,xml]
-----
-include::initial/pom.xml[]
-----
-====
+* com.anz.wholesale.Exception.DefaultExceptionHandler
+This is a custom exception handler class that handles any exception and more specific excpetion using two methods.
 
-The following listing shows the `build.gradle` file that is created when you choose Gradle:
-
-====
-[source,text]
-----
-include::initial/build.gradle[]
-----
-====
-
-[[initial]]
-== Create a Resource Representation Class
-
-Now that you have set up the project and build system, you can create your web service.
-
-Begin the process by thinking about service interactions.
-
-The service will handle `GET` requests for `/greeting`, optionally with a `name` parameter
-in the query string. The `GET` request should return a `200 OK` response with JSON in the
-body that represents a greeting. It should resemble the following output:
-
-====
-[source,json]
-----
-{
-    "id": 1,
-    "content": "Hello, World!"
-}
-----
-====
-
-The `id` field is a unique identifier for the greeting, and `content` is the textual
-representation of the greeting.
-
-To model the greeting representation, create a resource representation class. To do so,
-provide a plain old Java object with fields, constructors, and accessors for the `id` and
-`content` data, as the following listing (from
-`src/main/java/com/example/restservice/Greeting.java`) shows:
-
-[source,java]
-----
-include::complete/src/main/java/com/example/restservice/Greeting.java[]
-----
-
-====
-NOTE: This application uses the https://github.com/FasterXML/jackson[Jackson JSON] library to
-automatically marshal instances of type `Greeting` into JSON. Jackson is included by default by the web starter.
-====
-
-== Create a Resource Controller
-
-In Spring's approach to building RESTful web services, HTTP requests are handled by a
-controller. These components are identified by the
-https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
-annotation, and the `GreetingController` shown in the following listing (from
-`src/main/java/com/example/restservice/GreetingController.java`) handles `GET` requests
-for `/greeting` by returning a new instance of the `Greeting` class:
-
-====
-[source,java]
-----
-include::complete/src/main/java/com/example/restservice/GreetingController.java[]
-----
-====
-
-This controller is concise and simple, but there is plenty going on under the hood. We
-break it down step by step.
-
-The `@GetMapping` annotation ensures that HTTP GET requests to `/greeting` are mapped to the `greeting()` method.
-
-NOTE: There are companion annotations for other HTTP verbs (e.g. `@PostMapping` for POST). There is also a `@RequestMapping` annotation that they all derive from, and can serve as a synonym (e.g. `@RequestMapping(method=GET)`).
-
-`@RequestParam` binds the value of the query string parameter `name` into the `name`
-parameter of the `greeting()` method. If the `name` parameter is absent in the request,
-the `defaultValue` of `World` is used.
-
-The implementation of the method body creates and returns a new `Greeting` object with
-`id` and `content` attributes based on the next value from the `counter` and formats the
-given `name` by using the greeting `template`.
-
-A key difference between a traditional MVC controller and the RESTful web service
-controller shown earlier is the way that the HTTP response body is created. Rather than
-relying on a view technology to perform server-side rendering of the greeting data to
-HTML, this RESTful web service controller populates and returns a `Greeting` object. The
-object data will be written directly to the HTTP response as JSON.
-
-This code uses Spring
-https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
-annotation, which marks the class as a controller where every method returns a domain
-object instead of a view. It is shorthand for including both `@Controller` and
-`@ResponseBody`.
-
-The `Greeting` object must be converted to JSON. Thanks to Spring's HTTP message converter
-support, you need not do this conversion manually. Because
-https://wiki.fasterxml.com/JacksonHome[Jackson 2] is on the classpath, Spring's
-https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`]
-is automatically chosen to convert the `Greeting` instance to JSON.
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application-new-path.adoc[]
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
-
-Logging output is displayed. The service should be up and running within a few seconds.
-
+It has two methods.
+handleAnyException - This method handles the exceptional scenario (other than more specific scenario handled by handleAccountTransactionException) and returns 400 Bad Request response
+handleAccountTransactionException - This method handles scenario when there are no transactions associated with a given account number and returns appropriate user friendly message.
 
 == Test the Service
 
-Now that the service is up, visit `http://localhost:8080/greeting`, where you should see:
-
-====
-[source,json]
-----
-{"id":1,"content":"Hello, World!"}
-----
-====
-
-Provide a `name` query string parameter by visiting
-`http://localhost:8080/greeting?name=User`. Notice how the value of the `content`
-attribute changes from `Hello, World!` to `Hello, User!`, as the following listing shows:
-
-====
-[source,json]
-----
-{"id":2,"content":"Hello, User!"}
-----
-====
-
-This change demonstrates that the `@RequestParam` arrangement in `GreetingController` is
-working as expected. The `name` parameter has been given a default value of `World` but
-can be explicitly overridden through the query string.
-
-Notice also how the `id` attribute has changed from `1` to `2`. This proves that you are
-working against the same `GreetingController` instance across multiple requests and that
-its `counter` field is being incremented on each call as expected.
-
-== Summary
-
-Congratulations! You have just developed a RESTful web service with Spring.
-
-== See Also
-
-The following guides may also be helpful:
-
-* https://spring.io/guides/gs/accessing-gemfire-data-rest/[Accessing GemFire Data with REST]
-* https://spring.io/guides/gs/accessing-mongodb-data-rest/[Accessing MongoDB Data with REST]
-* https://spring.io/guides/gs/accessing-data-mysql/[Accessing data with MySQL]
-* https://spring.io/guides/gs/accessing-data-rest/[Accessing JPA Data with REST]
-* https://spring.io/guides/gs/accessing-neo4j-data-rest/[Accessing Neo4j Data with REST]
-* https://spring.io/guides/gs/consuming-rest/[Consuming a RESTful Web Service]
-* https://spring.io/guides/gs/consuming-rest-angularjs/[Consuming a RESTful Web Service with AngularJS]
-* https://spring.io/guides/gs/consuming-rest-jquery/[Consuming a RESTful Web Service with jQuery]
-* https://spring.io/guides/gs/consuming-rest-restjs/[Consuming a RESTful Web Service with rest.js]
-* https://spring.io/guides/gs/securing-web/[Securing a Web Application]
-* https://spring.io/guides/tutorials/bookmarks/[Building REST services with Spring]
-* https://spring.io/guides/tutorials/react-and-spring-data-rest/[React.js and Spring Data REST]
-* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
-* https://spring.io/guides/gs/testing-restdocs/[Creating API Documentation with Restdocs]
-* https://spring.io/guides/gs/rest-service-cors/[Enabling Cross Origin Requests for a RESTful Web Service]
-* https://spring.io/guides/gs/rest-hateoas/[Building a Hypermedia-Driven RESTful Web Service]
-* https://spring.io/guides/gs/circuit-breaker/[Circuit Breaker]
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+http://localhost:8080/accountListEnquiry will return the list of accounts in JSON format
+http://localhost:8080/transactionListEnquiry/{accountNumber} will return the list of transactions for a given account in JSON format.
+Currently only two account numbers(585309209 and 791066619) have been configured to return a dummy list of transactions.
